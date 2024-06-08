@@ -1,0 +1,14 @@
+library(ganttrify)
+library(readxl)
+Cronograma <- read_excel("INVESTIGACION/POSDOCTORADO/Cronograma.xlsx", 
+                         col_types = c("text", "text", "date", 
+                                       "date"))
+View(Cronograma)
+
+ganttrify(Cronograma,
+          by_date = T,
+          size_text_relative = .5, 
+          mark_quarters = TRUE,
+          exact_date = T,
+          colour_palette = c("steelblue","grey", "blue","steelblue4", "darkblue","dodgerblue2"),
+          month_number = F)
