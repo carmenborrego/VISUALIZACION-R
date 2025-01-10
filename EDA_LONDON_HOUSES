@@ -65,3 +65,59 @@ ggcorrplot(r,
            hc.order = TRUE, title = "Correlación", 
            colors = c("#e0a", "#e5e1ef", "#75add0"),
            lab = TRUE)
+
+
+
+#creamos el modelo de regresión lineal simple 
+#con el precio como variable explicada 
+#y el número de metros cuadrados como variable explicativa
+#la función a utilizar es lm y la primera variable es la dependiente, 
+#la siguiente o siguientes variables son las explicativas
+regresion <- lm(Price ~ SQM, data =london_houses)
+summary(regresion)
+library(easystats)
+report(regresion)
+model_parameters(regresion)
+model_performance(regresion)
+
+
+
+#revision de supuestos
+#normalidad
+library(car)
+qqPlot(regresion, main = "Q-Q Plot para los residuales", 
+            id = FALSE, grid = FALSE, 
+            ylab = "Residuales estandarizados")
+check_normality(regresion)
+plot(regresion$residuals)
+shapiro.test(regresion$residuals)
+
+
+qqplot(resultados$Price, resultados$.resid, 
+       main = "QQ plot para residuales", 
+       col= "cornflowerblue", 
+       ylab = "Price", 
+       xlab = "Residuals", bty = "L")
+
+
+#homoscedasticidad
+hetero <- check_heteroscedasticity(regresion)
+ncvTest(regresion)
+
+
+
+#se elabora diagrama de dispersión 
+#que incluye la recta de mejor ajuste 
+resultados <- fortify(regresion)
+ggplot(resultados) + 
+  geom_point(aes(x = SQM, y = Price, color = london_houses$Neighborhood)) +
+  geom_line(aes(x = SQM, y = .fitted, color = london_houses$Neighborhood)) + 
+  labs(title = "Diarama de dispersión para el modelo de regresión", 
+       color = "Neighborhood") + 
+  scale_color_material() +
+  theme_classic()
+print(resultados)
+
+library(car)
+durbinWatsonTest(regresion)
+
