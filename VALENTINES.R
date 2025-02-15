@@ -59,6 +59,29 @@ gasto3 <- age |>
 
 plot(gasto3)
 
+#género 
+gifts_gender <- read_excel("C:/Users/carmenbs/Downloads/BLOG/gifts_gender.xlsx")
+view(energy)
 
+pivot_gender <- gifts_gender %>%
+  pivot_longer(cols = c(Men, Women),
+               names_to = "Sex",
+               values_to = "Spending")
+sex_valentines <- c("lightskyblue", "hotpink")
+pivot_gender |>
+  tidyplot(x=Category, y=Spending, color = Sex) |>
+  add_sum_bar(width= 0.03) |>
+  add_sum_dot() |> 
+  add_sum_value(accuracy = 1, fontsize = 20) |> 
+  adjust_x_axis(rotate_labels = TRUE) |> 
+  remove_x_axis_title() |> 
+  add_title(title="Spending per sex") |>
+  adjust_colors(new_colors = sex_valentines) |>
+  adjust_size(width=200, height=100) |>
+  adjust_font(fontsize = 20, face = "bold",family = "Times New Roman") |>
+  add_caption("Souce: Valentine´s Day Consumer data, available at Kaggle")
+  
+  
+  
 
 
