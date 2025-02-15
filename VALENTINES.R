@@ -2,7 +2,7 @@ library(readxl)
 library(tidyplots)
 library(tidyverse)
 library(showtext)
-gifts_age <- read_excel("C:/Users/carmenbs/Downloads/BLOG/gifts_age.xlsx")
+gifts_age <- read_excel("YOUTPATH/gifts_age.xlsx")
 
 #pivoteo por edad
 age <- gifts_age %>%
